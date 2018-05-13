@@ -3,6 +3,9 @@ using System.Collections;
 
 public static class SpaceParameters  {
 
+    public static bool startAnimation = false;
+
+
     public static double
         G = 6.6726 * Mathd.Pow(10, -11),
         G_N = 0.000000000888944023114755,

@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpaceObjectInfo : MonoBehaviour {
-
+public class NewBehaviourScript : MonoBehaviour {
+    public void ChangeValue()
+    {
+        SpaceParameters.startAnimation = !SpaceParameters.startAnimation;
+    }
     // Use this for initialization
-    private string Name, Type;
-	void Start () {
+    void Start () {
 		
 	}
 	

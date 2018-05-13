@@ -4,9 +4,9 @@ using UnityEngine.UI;
 
 
 public class SpaceObject : MonoBehaviour {
-
+    public Toggle toggle;
     public string Name;
-    float nextTime = 0;
+    //float nextTime = 0;
     Vector3d prevVelocity, prevPosition;
     public double  Radius;
     private double Mass;
@@ -54,7 +54,7 @@ public class SpaceObject : MonoBehaviour {
             gameObject.GetComponent<SpaceObject>().MyInitialize(
             SpaceParameters.E_MASS_N,
             new Vector3d(SpaceParameters.AU_N, 0, 0),
-            new Vector3d(0, 0, SpaceParameters.E_SPEED_N)
+            new Vector3d(0, SpaceParameters.E_SPEED_N,0)
             );
         }
         rotationVelocity = new Vector3(0,1f,0);
@@ -62,15 +62,7 @@ public class SpaceObject : MonoBehaviour {
     }
 
 
-    private Vector3d ScaleCoordinates(Vector3d Wposition)
-    {
-        //float xMIN, xMAX = 200;
-        //xMIN = -xMAX;
-        //Vector3d X0 = Vector3d.one * -SpaceParameters.AU * 2;
-        //float Sx = (xMAX - xMIN) / (SpaceParameters.AU * 4.0f);
-        //return ((Wposition - X0) * Sx) + (xMIN * Vector3d.one);
-        return new Vector3d();
-    }
+  
 
     public void ResetPosition()
     {
@@ -82,15 +74,15 @@ public class SpaceObject : MonoBehaviour {
     }
   
     void Update () {
-        
 
+        if (toggle.isOn) { 
             SelfRotate();
             UpdatePosition();
+        }
+        // nextTime += interval;
 
-           // nextTime += interval;
 
-        
-        
+
     }
     private void FixedUpdate()
     {
@@ -155,4 +147,6 @@ public class SpaceObject : MonoBehaviour {
         transform.Rotate(rotationVelocity);
 
     }
+
+   
 }

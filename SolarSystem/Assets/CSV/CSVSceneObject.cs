@@ -17,9 +17,7 @@ public class CSVSceneObject : MonoBehaviour {
     public double Inclination { get; set; }
     public double MeanOrbitalVelocity { get; set; }
     public float X, Y, Z;
-    //public string Type { get; set; }
-    //public double Weigth { get; set; }
-    //public double DistanceFromSun { get; set; }
+   
 
     // Use this for initialization
     void Start () {
