@@ -43,13 +43,14 @@ public class CSVObjectSpawner : MonoBehaviour {
                     //Read data from csv file
                     CsvContext cc = new CsvContext();
 
-                    var list = cc.Read<CSVSceneObject>(txtReader, inputFileDescription).Where<CSVSceneObject>(x => x.PrefabName == "Sphere");
+                    var list = cc.Read<CSVSceneObject>(txtReader, inputFileDescription).Where<CSVSceneObject>(x => x.PrefabName == "TerrestrialPlanet");
                     foreach (var so in list)
                     {
 
                   
                                         GameObject copy = Instantiate(prefabs[so.PrefabName]);
                                         copy.name = so.InstanceName;
+                        
                                         copy.transform.position = new Vector3(so.X, so.Y, so.Z);
                                     } ;
 

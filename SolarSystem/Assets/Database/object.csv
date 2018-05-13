@@ -1,7 +1,7 @@
-PrefabName,InstanceName,X,Y,Z
-Cube,Cube1,0,0,0
-Cylinder,Tower,1,1,1
-Sphere,STH,2,2,-1
-Sphere,STH2,3,0,-5
-Sphere,STH3,4,0,2
-Sphere,STH4,1,-1,-3
+PrefabName,InstanceName,X,Y,Z,HMMM
+Cube,Cube1,0,0,0,f
+Cylinder,Tower,1,1,1,f
+Sphere,STH,2,2,-1,f
+Sphere,STH2,3,0,-5,f
+Sphere,STH3,4,0,2,f
+Sphere,STH4,1,-1,-3,f
