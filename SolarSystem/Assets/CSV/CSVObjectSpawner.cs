@@ -5,7 +5,8 @@ using LINQtoCSV;
 using System.IO;
 using System.Linq;
 
-public class CSVObjectSpawner : MonoBehaviour {
+public class CSVObjectSpawner : MonoBehaviour
+{
 
     private Dictionary<string, GameObject> prefabs = new Dictionary<string, GameObject>();
     [Tooltip("Prefabs for each objects")]
@@ -16,23 +17,24 @@ public class CSVObjectSpawner : MonoBehaviour {
 
     private void Awake()
     {
-        foreach (var obj in gameObjects) 
+        foreach (var obj in gameObjects)
         {
             prefabs[obj.name] = obj;
         }
     }
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         CsvFileDescription inputFileDescription = new CsvFileDescription
         {
             SeparatorChar = ',',
             FirstLineHasColumnNames = true
         };
-       
 
-        using(var ms = new MemoryStream())
+
+        using (var ms = new MemoryStream())
         {
-            using(var txtWriter = new StreamWriter(ms))
+            using (var txtWriter = new StreamWriter(ms))
             {
                 using (var txtReader = new StreamReader(ms))
                 {
@@ -43,29 +45,33 @@ public class CSVObjectSpawner : MonoBehaviour {
                     //Read data from csv file
                     CsvContext cc = new CsvContext();
 
-                    var list = cc.Read<CSVSceneObject>(txtReader, inputFileDescription).Where<CSVSceneObject>(x => x.PrefabName == "TerrestrialPlanet");
+                    var list = cc.Read<CSVSceneObject>(txtReader, inputFileDescription).Where<CSVSceneObject>(x => x.PrefabName == "Star" || x.InstanceName == "Earth" );
                     foreach (var so in list)
                     {
+                        GameObject copy = Instantiate(prefabs[so.PrefabName]);
+                        copy.name = so.InstanceName;
+                        copy.transform.position = new Vector3(so.X, so.Y, so.Z);
+                        copy.AddComponent<SpaceObject>();
+                        copy.GetComponent<SpaceObject>().
+                        MyInitialize(so.InstanceName, so.PrefabName, so.Id, so.OrbitalPeriod, so.Diameter,
+                        so.Mass, so.EscapeVelocity, so.Inclination, so.MeanOrbitalVelocity,
+                        new Vector3d(so.X, so.Y, so.Z), new Vector3d(so.Vx, so.Vy, so.Vz));
 
-                  
-                                        GameObject copy = Instantiate(prefabs[so.PrefabName]);
-                                        copy.name = so.InstanceName;
-                        
-                                        copy.transform.position = new Vector3(so.X, so.Y, so.Z);
-                                    } ;
+                    };
 
 
                     //Runs through all object taht will 
                 }
-                 
+
 
             }
         }
-       
+
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 }

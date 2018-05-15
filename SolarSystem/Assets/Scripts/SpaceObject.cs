@@ -4,28 +4,59 @@ using UnityEngine.UI;
 
 
 public class SpaceObject : MonoBehaviour {
+
+    private string PrefabName { get; set; }
+        private string InstanceName { get; set; }
+
+        private double OrbitalPeriod { get; set; }
+        private double Id { get; set; }
+        private double Diameter { get; set; }
+        private double Mass { get; set; }
+        private double AU { get; set; }
+        public double Radius;
+        private double EscapeVelocity { get; set; }
+        private double Inclination { get; set; }
+        private double MeanOrbitalVelocity { get; set; }
+
+    
     public Toggle toggle;
     public string Name;
     //float nextTime = 0;
     Vector3d prevVelocity, prevPosition;
-    public double  Radius;
-    private double Mass;
     Vector3 rotationVelocity;
-    public bool isPreDefined  = false;
-    public Slider slider;
+     public Slider slider;
 
     private Vector3d  acceleration, defaultPosition, defaultVelocity;
     public Vector3d worldPosition, velocity;
     private GameObject[] allSpaceObjects;
 
-    public void MyInitialize(double massIn, Vector3d positionIn, Vector3d velocityIn )
+    public void MyInitialize(string instanceNameIn, string prefabNameIn, int idIn,
+        double orbitalPeriodIn,
+        double diameterIn,
+        double massIn,
+        double escapeVelocityIn,
+        double inclinationIn,
+        double meanOrbitalVelocity, 
+        Vector3d positionIn,
+        Vector3d velocityIn )
     {
-        gameObject.GetComponent<SpaceObject>().Mass = massIn;
-        gameObject.GetComponent<SpaceObject>().defaultPosition = positionIn;
-        gameObject.GetComponent<SpaceObject>().worldPosition = positionIn;
-        gameObject.GetComponent<SpaceObject>().velocity = velocityIn;
-        gameObject.GetComponent<SpaceObject>().defaultVelocity = velocityIn;
-        gameObject.GetComponent<SpaceObject>().acceleration = new Vector3d(0,0,0);
+        InstanceName = instanceNameIn;
+        PrefabName =  prefabNameIn;
+        Id = idIn;
+        OrbitalPeriod = orbitalPeriodIn;
+        Diameter = diameterIn;
+        Mass = massIn;
+        EscapeVelocity = escapeVelocityIn;
+        Inclination = inclinationIn;
+        MeanOrbitalVelocity = escapeVelocityIn;
+        defaultPosition = positionIn;
+        worldPosition = positionIn;
+        velocity = velocityIn;
+        defaultVelocity = velocityIn;
+        acceleration = new Vector3d(0,0,0);
+        toggle = GameObject.FindObjectOfType<Toggle>();
+        slider = GameObject.FindObjectOfType<Slider>();
+        gameObject.tag = "SpaceObject";
         
     }
 
@@ -39,24 +70,7 @@ public class SpaceObject : MonoBehaviour {
     // Use this for initialization
     void Awake () {
         
-        if(Name == "Sun")
-        {
-
-            gameObject.GetComponent<SpaceObject>().MyInitialize(
-                SpaceParameters.S_MASS_N,
-                new Vector3d(0, 0, 0),
-                new Vector3d(0, 0, 0)
-                );
-
-        }
-        else
-        {
-            gameObject.GetComponent<SpaceObject>().MyInitialize(
-            SpaceParameters.E_MASS_N,
-            new Vector3d(SpaceParameters.AU_N, 0, 0),
-            new Vector3d(0, SpaceParameters.E_SPEED_N,0)
-            );
-        }
+       
         rotationVelocity = new Vector3(0,1f,0);
         allSpaceObjects = GameObject.FindGameObjectsWithTag("SpaceObject");
     }
@@ -100,10 +114,7 @@ public class SpaceObject : MonoBehaviour {
         CalculateNext(ref velocity, acceleration);
 
         transform.position = (Vector3) worldPosition;
-       // transform.position = worldPosition ;
-      //  transform.localPosition = ScaleCoordinates(worldPosition);
-      //  Debug.Log(velocity);
-    }
+     }
     private void CalculateNext(ref Vector3d vectorIn, Vector3d multiplayer)
     {
         vectorIn += multiplayer * SpaceParameters.E_DAY_N *slider.value;//Time.deltaTime*6600000;
@@ -121,10 +132,10 @@ public class SpaceObject : MonoBehaviour {
                     GetComponent<SpaceObject>().prevPosition);
 
                 double temp = Mathd.Pow(radius, 3);
-                double temp2 = prevPosition.x - allSpaceObjects[i].GetComponent<SpaceObject>().prevPosition.x;
-                double temp3 = -SpaceParameters.G_N *
-                    allSpaceObjects[i].GetComponent<SpaceObject>().Mass
-                    * (prevPosition.x - allSpaceObjects[i].GetComponent<SpaceObject>().prevPosition.x);
+                //double temp2 = prevPosition.x - allSpaceObjects[i].GetComponent<SpaceObject>().prevPosition.x;
+                //double temp3 = -SpaceParameters.G_N *
+                //    allSpaceObjects[i].GetComponent<SpaceObject>().Mass
+                //    * (prevPosition.x - allSpaceObjects[i].GetComponent<SpaceObject>().prevPosition.x);
                 acceleration.x = -SpaceParameters.G_N *
                     allSpaceObjects[i].GetComponent<SpaceObject>().Mass
                     * (prevPosition.x - allSpaceObjects[i].GetComponent<SpaceObject>().prevPosition.x) / temp
